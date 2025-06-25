@@ -1,42 +1,63 @@
+/* style.css */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
     background-color: #f4f7f6;
+    /* Fundo do BODY para preencher as laterais */
     color: #333;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    justify-content: center;
+}
+
+/* Container que vai limitar a largura de TODO o conteúdo da página */
+.page-container {
+    max-width: 900px;
+    /* Largura máxima para todo o conteúdo */
+    margin: 0 auto;
+    /* Centraliza o container na página */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    /* Sombra para dar um destaque visual */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Faz o container principal ocupar a altura total */
+    background-color: #fff;
+    /* Fundo branco para todo o conteúdo do container */
 }
 
 header {
     background-color: #2c3e50;
     color: #ecf0f1;
-    padding: 2rem 1rem;
+    padding: 1rem 1rem;
+    /* Padding para altura do header */
     text-align: center;
+    /* Centraliza todo o conteúdo dentro do header */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
-    margin-bottom: 0.5rem;
-    font-size: 2.5rem;
+    margin-bottom: 0rem;
+    font-size: 2rem;
 }
 
 .intro-text {
-    font-size: 1.1rem;
+    font-size: 1rem;
     max-width: 800px;
+    /* Mantém este texto com uma largura ligeiramente menor para legibilidade */
     margin: 0 auto;
+    text-align: justify;
+    /* Justifica o texto de introdução em telas maiores */
 }
 
 main {
     flex: 1;
     padding: 2rem 1rem;
-    max-width: 900px;
-    margin: 2rem auto;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 0;
+    box-shadow: none;
 }
 
 /* Table of Contents */
@@ -54,6 +75,8 @@ main {
     border-bottom: 1px solid #ccc;
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
+    text-align: center;
+    /* Centraliza o título do sumário */
 }
 
 #table-of-contents ul {
@@ -64,6 +87,8 @@ main {
 
 #table-of-contents li {
     margin-bottom: 0.5rem;
+    text-align: center;
+    /* Centraliza os itens da lista do sumário */
 }
 
 #table-of-contents a {
@@ -77,7 +102,6 @@ main {
     color: #2980b9;
     text-decoration: underline;
 }
-
 
 section {
     margin-bottom: 3rem;
@@ -93,6 +117,13 @@ section h2 {
     padding-bottom: 0.5rem;
     margin-bottom: 1.5rem;
     font-size: 2rem;
+    text-align: center;
+    /* Centraliza os títulos das seções */
+}
+
+section p {
+    text-align: justify;
+    /* Justifica todos os parágrafos dentro das seções por padrão */
 }
 
 .concept-card {
@@ -107,11 +138,15 @@ section h2 {
     color: #2c3e50;
     margin-top: 0;
     font-size: 1.4rem;
+    text-align: center;
+    /* Centraliza os títulos dos cards de conceito */
 }
 
 .concept-card ul {
     list-style: disc inside;
     padding-left: 0;
+    text-align: justify;
+    /* Justifica as listas dentro dos cards */
 }
 
 .concept-card li {
@@ -149,7 +184,6 @@ section h2 {
 /* Comparison Table Styling */
 .comparison-table {
     overflow-x: auto;
-    /* Ensures table is scrollable on small screens */
     margin-top: 1.5rem;
 }
 
@@ -157,7 +191,6 @@ section h2 {
     width: 100%;
     border-collapse: collapse;
     min-width: 600px;
-    /* Ensures table doesn't get too narrow */
 }
 
 .comparison-table th,
@@ -165,6 +198,7 @@ section h2 {
     border: 1px solid #ddd;
     padding: 12px 15px;
     text-align: left;
+    /* Mantém o alinhamento esquerdo para os dados da tabela */
     vertical-align: top;
 }
 
@@ -173,6 +207,8 @@ section h2 {
     color: white;
     font-weight: bold;
     text-transform: uppercase;
+    text-align: center;
+    /* Centraliza o texto dos cabeçalhos da tabela */
 }
 
 .comparison-table tr:nth-child(even) {
@@ -181,9 +217,7 @@ section h2 {
 
 .comparison-table tr:hover {
     background-color: #e6f7ff;
-    /* Lighter blue on hover */
 }
-
 
 #quiz-container {
     background-color: #f9f9f9;
@@ -205,6 +239,8 @@ section h2 {
 .question-card p {
     font-size: 1.1rem;
     margin-bottom: 1rem;
+    text-align: left;
+    /* As perguntas em si geralmente ficam melhor alinhadas à esquerda */
 }
 
 .options label {
@@ -216,6 +252,8 @@ section h2 {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s ease, border-color 0.2s ease;
+    text-align: left;
+    /* As opções de rádio/checkbox ficam melhor alinhadas à esquerda */
 }
 
 .options label:hover {
@@ -239,8 +277,8 @@ section h2 {
     border-radius: 5px;
     font-weight: bold;
     text-align: center;
+    /* O feedback (certo/errado) deve ser centralizado */
     display: none;
-    /* Hidden by default */
 }
 
 .feedback.correct {
@@ -258,10 +296,10 @@ section h2 {
 .code-solution-toggle {
     display: block;
     width: fit-content;
-    margin: 1rem 0;
+    margin: 1rem auto;
+    /* Centraliza o botão de "Ver Solução" */
     padding: 0.6rem 1rem;
     background-color: #5cb85c;
-    /* Green for "show code" */
     color: white;
     border: none;
     border-radius: 5px;
@@ -280,19 +318,15 @@ section h2 {
     border-radius: 5px;
     padding: 1rem;
     font-family: 'Fira Code', 'Cascadia Code', monospace;
-    /* Modern monospace fonts */
     font-size: 0.9em;
     white-space: pre-wrap;
-    /* Preserves whitespace and wraps lines */
     word-break: break-word;
-    /* Breaks long words if necessary */
     display: none;
-    /* Hidden by default */
     margin-top: 1rem;
     max-height: 300px;
-    /* Limit height */
     overflow-y: auto;
-    /* Scroll if content is too long */
+    text-align: left;
+    /* O código em si deve ser alinhado à esquerda */
 }
 
 #quiz-navigation {
@@ -305,28 +339,66 @@ section h2 {
 
 #quiz-navigation button {
     width: 48%;
-    /* Adjust for spacing */
 }
 
 footer {
     background-color: #2c3e50;
     color: #ecf0f1;
-    text-align: center;
-    padding: 1rem;
+    padding: 1rem 1rem;
     margin-top: auto;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
     font-size: 0.9rem;
+    text-align: center;
+    /* Centraliza todo o conteúdo dentro do footer */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
+
+footer p {
+    margin: 0.3rem 0;
+}
+
+.social-icons {
+    margin-top: 0.8rem;
+}
+
+.social-icons a {
+    color: #ecf0f1;
+    font-size: 1.6rem;
+    margin: 0 0.8rem;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #3498db;
+}
+
 
 /* Responsiveness */
 @media (max-width: 768px) {
+    .page-container {
+        max-width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    header {
+        padding: 1rem 0.8rem;
+    }
+
     header h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+
+    .intro-text {
+        font-size: 0.9rem;
+        text-align: left;
+        /* Em telas menores, volte para left ou center se justify ficar ruim */
     }
 
     main {
         padding: 1.5rem 0.8rem;
-        margin: 1.5rem auto;
+        margin: 0;
     }
 
     section {
@@ -337,8 +409,17 @@ footer {
         font-size: 1.7rem;
     }
 
+    section p {
+        text-align: left;
+        /* Em telas menores, o "justify" pode quebrar palavras de forma estranha, então volte para left ou center se preferir. */
+    }
+
     .concept-card h3 {
         font-size: 1.2rem;
+    }
+
+    .concept-card ul {
+        text-align: left;
     }
 
     .nav-button {
@@ -349,7 +430,6 @@ footer {
     #quiz-navigation {
         flex-direction: column;
         gap: 1rem;
-        /* Space between buttons */
     }
 
     #quiz-navigation button {
@@ -358,21 +438,38 @@ footer {
 
     .comparison-table table {
         min-width: unset;
-        /* Allow table to shrink more on small screens */
+    }
+
+    footer {
+        padding: 0.8rem 0.8rem;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    footer p {
+        margin: 0.2rem 0;
+    }
+
+    .social-icons {
+        margin-top: 0.5rem;
+    }
+
+    .social-icons a {
+        font-size: 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
     header h1 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
 
     .intro-text {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     main {
-        margin: 1rem auto;
+        margin: 0;
     }
 
     .options label {

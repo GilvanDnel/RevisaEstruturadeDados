@@ -6,178 +6,210 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estruturas de Dados: Pilhas e Filas</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
-    <header>
-        <h1>Estruturas de Dados: Pilhas e Filas</h1>
-        <p class="intro-text">Seja bem-vindo(a) à nossa aula interativa! Vamos explorar os conceitos essenciais de
-            pilhas e filas de forma didática e com feedback em tempo real.</p>
-    </header>
+    <div class="page-container">
+        <header>
+            <h1>Estruturas de Dados: Pilhas e Filas</h1>
+        </header>
 
-    <main>
-        <nav id="table-of-contents">
-            <h3>Sumário</h3>
-            <ul>
-                <li><a href="#introduction" onclick="showSection('introduction')">Introdução</a></li>
-                <li><a href="#queues-piles-concept" onclick="showSection('queues-piles-concept')">O que são Pilhas e
-                        Filas?</a></li>
-                <li><a href="#implementation-types" onclick="showSection('implementation-types')">Tipos de
-                        Implementação</a></li>
-                <li><a href="#comparison-section" onclick="showSection('comparison-section')">Comparando Estática vs.
-                        Dinâmica</a></li>
-                <li><a href="#questions-section" onclick="showSection('questions-section')">Questões para Fixar o
-                        Conteúdo</a></li>
-            </ul>
-        </nav>
-
-        <section id="introduction">
-            <h2>🚀 Introdução</h2>
-            <p>Imagine que você está organizando informações em um computador. Para fazer isso de forma eficiente,
-                usamos algo chamado **Estruturas de Dados**. Hoje, vamos focar em duas muito comuns: **Pilhas** e
-                **Filas**.</p>
-            <p>Pense em uma pilha de livros ou em uma fila de supermercado – a lógica é bem parecida!</p>
-            <button class="nav-button" onclick="showSection('queues-piles-concept')">Entender Pilhas e Filas</button>
-        </section>
-
-        <section id="queues-piles-concept" class="hidden">
-            <h2>🧠 O que são Pilhas e Filas?</h2>
-
-            <div class="concept-card">
-                <h3>Pilhas (LIFO - Last In, First Out)</h3>
-                <p>Pense em uma pilha de pratos: o **último prato que você coloca é o primeiro que você tira**. Em
-                    computação, uma Pilha funciona assim: o último elemento adicionado é o primeiro a ser removido.</p>
+        <main>
+            <nav id="table-of-contents">
+                <h3>Sumário</h3>
                 <ul>
-                    <li><strong>Exemplos do dia a dia:</strong></li>
-                    <li>O botão "Voltar" do seu navegador.</li>
-                    <li>A função "Desfazer" em programas de edição.</li>
-                    <li>Chamadas de funções em linguagens de programação (como quando uma função chama outra).</li>
+                    <li><a href="#introduction" onclick="showSection('introduction')">Introdução</a></li>
+                    <li><a href="#queues-piles-concept" onclick="showSection('queues-piles-concept')">O que são Pilhas e
+                            Filas?</a></li>
+                    <li><a href="#implementation-types" onclick="showSection('implementation-types')">Tipos de
+                            Implementação</a></li>
+                    <li><a href="#comparison-section" onclick="showSection('comparison-section')">Comparando Estática
+                            vs. Dinâmica</a></li>
+                    <li><a href="#questions-section" onclick="showSection('questions-section')">Questões para Fixar o
+                            Conteúdo</a></li>
                 </ul>
+            </nav>
+
+            <section id="introduction">
+                <h2>🚀 Introdução</h2>
+                <p>Imagine que você está organizando informações em um computador. Para fazer isso de forma eficiente,
+                    usamos algo chamado <strong>Estruturas de Dados</strong>. Hoje, vamos focar em duas muito comuns:
+                    <strong>Pilhas</strong> e
+                    <strong>Filas</strong>.
+                </p>
+                <p>Pense em uma pilha de livros ou em uma fila de supermercado – a lógica é bem parecida!</p>
+                <button class="nav-button" onclick="showSection('queues-piles-concept')">Entender Pilhas e
+                    Filas</button>
+            </section>
+
+            <section id="queues-piles-concept" class="hidden">
+                <h2>🧠 O que são Pilhas e Filas?</h2>
+
+                <div class="concept-card">
+                    <h3>Pilhas (LIFO - Last In, First Out)</h3>
+                    <p>Pense em uma pilha de pratos: o <strong>último prato que você coloca é o primeiro que você
+                            tira</strong>. Em
+                        computação, uma Pilha funciona assim: o último elemento adicionado é o primeiro a ser removido.
+                    </p>
+                    <ul>
+                        <li><strong>Exemplos do dia a dia:</strong></li>
+                        <li>O botão "Voltar" do seu navegador.</li>
+                        <li>A função "Desfazer" em programas de edição.</li>
+                        <li>Chamadas de funções em linguagens de programação (como quando uma função chama outra).</li>
+                    </ul>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Filas (FIFO - First In, First Out)</h3>
+                    <p>Agora, imagine uma fila de supermercado: a <strong>primeira pessoa que chega é a primeira a ser
+                            atendida</strong>. As Filas em programação seguem essa mesma lógica: o primeiro elemento
+                        adicionado é o
+                        primeiro a ser removido.</p>
+                    <ul>
+                        <li><strong>Exemplos do dia a dia:</strong></li>
+                        <li>Impressão de documentos (o primeiro documento enviado é o primeiro a ser impresso).</li>
+                        <li>Atendimento ao cliente em centrais telefônicas.</li>
+                        <li>Processamento de tarefas em sistemas operacionais.</li>
+                    </ul>
+                </div>
+                <button class="nav-button" onclick="showSection('implementation-types')">Tipos de Implementação</button>
+            </section>
+
+            <section id="implementation-types" class="hidden">
+                <h2>🛠️ Como elas são construídas? Estáticas vs. Dinâmicas</h2>
+                <p>Pilhas e Filas podem ser implementadas de duas formas principais:</p>
+
+                <div class="concept-card">
+                    <h3>Implementação Estática</h3>
+                    <p>Imagine uma prateleira com um número <strong>fixo</strong> de espaços. Uma implementação estática
+                        funciona
+                        assim: o tamanho da estrutura (quantos elementos ela pode guardar) é definido no início e não
+                        muda.</p>
+                    <ul>
+                        <li><strong>Vantagens:</strong> Geralmente mais simples de programar e mais rápidas para acessar
+                            os elementos.</li>
+                        <li><strong>Desvantagens:</strong> Pode <strong>desperdiçar memória</strong> se você reservar
+                            muito espaço e
+                            não usar tudo, ou <strong>faltar espaço</strong> se a demanda for maior do que o que você
+                            reservou.</li>
+                        <li><strong>Exemplo:</strong> Usar um "vetor" ou "array" (uma lista de caixinhas pré-definidas).
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="concept-card">
+                    <h3>Implementação Dinâmica</h3>
+                    <p>Agora, imagine uma lista que cresce ou diminui conforme a necessidade. Uma implementação dinâmica
+                        funciona assim: ela <strong>se adapta ao tamanho da demanda</strong>, adicionando ou removendo "caixinhas" de
+                        memória conforme os elementos são inseridos ou retirados.</p>
+                    <ul>
+                        <li><strong>Vantagens:</strong> Utiliza a memória de forma mais eficiente, pois só aloca o que é
+                            necessário.</li>
+                        <li><strong>Desvantagens:</strong> Pode ser um pouco mais complexa de programar, pois envolve o
+                            gerenciamento de "ponteiros" (endereços que conectam uma caixinha à próxima).</li>
+                        <li><strong>Exemplo:</strong> Usar "listas encadeadas", onde cada elemento guarda a informação e
+                            o endereço do próximo elemento.</li>
+                    </ul>
+                </div>
+                <button class="nav-button" onclick="showSection('comparison-section')">Comparar Estática e
+                    Dinâmica</button>
+            </section>
+
+            <section id="comparison-section" class="hidden">
+                <h2>📊 Comparando Filas Estáticas e Dinâmicas</h2>
+                <p>Vamos visualizar as principais diferenças entre as implementações estática e dinâmica para entender
+                    melhor quando usar cada uma.</p>
+
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Característica</th>
+                                <th>Fila Estática</th>
+                                <th>Fila Dinâmica</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Flexibilidade de Tamanho</strong></td>
+                                <td>Tamanho <strong>fixo</strong>, definido na criação. Não pode crescer ou diminuir em
+                                    tempo de
+                                    execução.</td>
+                                <td>Tamanho <strong>flexível</strong>, pode crescer ou diminuir conforme a necessidade e
+                                    a memória
+                                    disponível.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Uso de Memória</strong></td>
+                                <td>Pode haver <strong>desperdício</strong> de memória (se o tamanho máximo for muito
+                                    grande) ou
+                                    <strong>falta de espaço</strong> (se a demanda exceder o tamanho).</td>
+                                <td>Uso de memória mais <strong>eficiente</strong>, pois aloca e desaloca apenas o
+                                    necessário.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Implementação</strong></td>
+                                <td>Geralmente mais <strong>simples</strong>, usa um vetor e índices (com aritmética
+                                    modular para
+                                    filas circulares).</td>
+                                <td>Mais <strong>complexa</strong>, usa ponteiros e alocação/desalocação dinâmica de
+                                    memória para
+                                    gerenciar os nós.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Inserção/Remoção</strong></td>
+                                <td>Geralmente <strong>rápida</strong> (acesso direto via índice), mas pode exigir
+                                    aritmética
+                                    modular.</td>
+                                <td>Geralmente <strong>rápida</strong> (apenas manipulação de ponteiros no início e
+                                    fim), mas tem o
+                                    *overhead* da alocação/desalocação de memória.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Vazamento de Memória</strong></td>
+                                <td>Não ocorre, pois a memória é alocada de forma estática.</td>
+                                <td><strong>Risco</strong> se a memória dos nós não for liberada corretamente após o uso
+                                    (e.g., ao
+                                    remover elementos ou reinicializar a fila).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="nav-button" onclick="showSection('questions-section')">Começar as Perguntas!</button>
+            </section>
+
+            <section id="questions-section" class="hidden">
+                <h2>📝 Questões para Fixar o Conteúdo</h2>
+                <p>Teste seus conhecimentos com as questões abaixo. Selecione a alternativa que você considera correta e
+                    veja o feedback instantâneo!</p>
+
+                <div id="quiz-container">
+                </div>
+                <div id="quiz-navigation">
+                    <button id="prev-question" class="nav-button" onclick="prevQuestion()" disabled>Anterior</button>
+                    <button id="next-question" class="nav-button" onclick="nextQuestion()">Próxima</button>
+                </div>
+                <div id="quiz-feedback" class="feedback"></div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Revisão de Estrutura de Dados 2. Todos os direitos reservados.
+                <br>Desenvolvido por Gilvan Daniel da Silva.
+            </p>
+            <p>Conecte-se comigo nas redes sociais:</p>
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/gilvan-daniel-da-silva-b52637114/" target="_blank"
+                    aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/Shadowtutor" target="_blank" aria-label="GitHub"><i
+                        class="fab fa-github"></i></a>
+                <a href="https://www.instagram.com/gilvandaniel/" target="_blank" aria-label="Instagram"><i
+                        class="fab fa-instagram"></i></a>
             </div>
+        </footer>
 
-            <div class="concept-card">
-                <h3>Filas (FIFO - First In, First Out)</h3>
-                <p>Agora, imagine uma fila de supermercado: a **primeira pessoa que chega é a primeira a ser atendida**.
-                    As Filas em programação seguem essa mesma lógica: o primeiro elemento adicionado é o primeiro a ser
-                    removido.</p>
-                <ul>
-                    <li><strong>Exemplos do dia a dia:</strong></li>
-                    <li>Impressão de documentos (o primeiro documento enviado é o primeiro a ser impresso).</li>
-                    <li>Atendimento ao cliente em centrais telefônicas.</li>
-                    <li>Processamento de tarefas em sistemas operacionais.</li>
-                </ul>
-            </div>
-            <button class="nav-button" onclick="showSection('implementation-types')">Tipos de Implementação</button>
-        </section>
-
-        <section id="implementation-types" class="hidden">
-            <h2>🛠️ Como elas são construídas? Estáticas vs. Dinâmicas</h2>
-            <p>Pilhas e Filas podem ser implementadas de duas formas principais:</p>
-
-            <div class="concept-card">
-                <h3>Implementação Estática</h3>
-                <p>Imagine uma prateleira com um número **fixo** de espaços. Uma implementação estática funciona assim:
-                    o tamanho da estrutura (quantos elementos ela pode guardar) é definido no início e não muda.</p>
-                <ul>
-                    <li><strong>Vantagens:</strong> Geralmente mais simples de programar e mais rápidas para acessar os
-                        elementos.</li>
-                    <li><strong>Desvantagens:</strong> Pode **desperdiçar memória** se você reservar muito espaço e não
-                        usar tudo, ou **faltar espaço** se a demanda for maior do que o que você reservou.</li>
-                    <li><strong>Exemplo:</strong> Usar um "vetor" ou "array" (uma lista de caixinhas pré-definidas).
-                    </li>
-                </ul>
-            </div>
-
-            <div class="concept-card">
-                <h3>Implementação Dinâmica</h3>
-                <p>Agora, imagine uma lista que cresce ou diminui conforme a necessidade. Uma implementação dinâmica
-                    funciona assim: ela **se adapta ao tamanho da demanda**, adicionando ou removendo "caixinhas" de
-                    memória conforme os elementos são inseridos ou retirados.</p>
-                <ul>
-                    <li><strong>Vantagens:</strong> Utiliza a memória de forma mais eficiente, pois só aloca o que é
-                        necessário.</li>
-                    <li><strong>Desvantagens:</strong> Pode ser um pouco mais complexa de programar, pois envolve o
-                        gerenciamento de "ponteiros" (endereços que conectam uma caixinha à próxima).</li>
-                    <li><strong>Exemplo:</strong> Usar "listas encadeadas", onde cada elemento guarda a informação e o
-                        endereço do próximo elemento.</li>
-                </ul>
-            </div>
-            <button class="nav-button" onclick="showSection('comparison-section')">Comparar Estática e Dinâmica</button>
-        </section>
-
-        <section id="comparison-section" class="hidden">
-            <h2>📊 Comparando Filas Estáticas e Dinâmicas</h2>
-            <p>Vamos visualizar as principais diferenças entre as implementações estática e dinâmica para entender
-                melhor quando usar cada uma.</p>
-
-            <div class="comparison-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Característica</th>
-                            <th>Fila Estática</th>
-                            <th>Fila Dinâmica</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Flexibilidade de Tamanho</strong></td>
-                            <td>Tamanho **fixo**, definido na criação. Não pode crescer ou diminuir em tempo de
-                                execução.</td>
-                            <td>Tamanho **flexível**, pode crescer ou diminuir conforme a necessidade e a memória
-                                disponível.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Uso de Memória</strong></td>
-                            <td>Pode haver **desperdício** de memória (se o tamanho máximo for muito grande) ou **falta
-                                de espaço** (se a demanda exceder o tamanho).</td>
-                            <td>Uso de memória mais **eficiente**, pois aloca e desaloca apenas o necessário.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Implementação</strong></td>
-                            <td>Geralmente mais **simples**, usa um vetor e índices (com aritmética modular para filas
-                                circulares).</td>
-                            <td>Mais **complexa**, usa ponteiros e alocação/desalocação dinâmica de memória para
-                                gerenciar os nós.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Inserção/Remoção</strong></td>
-                            <td>Geralmente **rápida** (acesso direto via índice), mas pode exigir aritmética modular.
-                            </td>
-                            <td>Geralmente **rápida** (apenas manipulação de ponteiros no início e fim), mas tem o
-                                *overhead* da alocação/desalocação de memória.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Vazamento de Memória</strong></td>
-                            <td>Não ocorre, pois a memória é alocada de forma estática.</td>
-                            <td>**Risco** se a memória dos nós não for liberada corretamente após o uso (e.g., ao
-                                remover elementos ou reinicializar a fila).</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <button class="nav-button" onclick="showSection('questions-section')">Começar as Perguntas!</button>
-        </section>
-
-        <section id="questions-section" class="hidden">
-            <h2>📝 Questões para Fixar o Conteúdo</h2>
-            <p>Teste seus conhecimentos com as questões abaixo. Selecione a alternativa que você considera correta e
-                veja o feedback instantâneo!</p>
-
-            <div id="quiz-container">
-            </div>
-            <div id="quiz-navigation">
-                <button id="prev-question" class="nav-button" onclick="prevQuestion()" disabled>Anterior</button>
-                <button id="next-question" class="nav-button" onclick="nextQuestion()">Próxima</button>
-            </div>
-            <div id="quiz-feedback" class="feedback"></div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Professor de Estruturas de Dados. Todos os direitos reservados.</p>
-    </footer>
-
+    </div>
     <script src="script.js"></script>
 </body>
 
