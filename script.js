@@ -1,23 +1,44 @@
+// Aguarda o carregamento completo do DOM antes de executar o script
 document.addEventListener('DOMContentLoaded', () => {
-    // Hide all sections except the introduction on page load
+    // Oculta todas as seções, exceto a de introdução, ao carregar a página
     document.querySelectorAll('section').forEach(section => {
         if (section.id !== 'introduction') {
             section.classList.add('hidden');
         }
     });
 
+    // Carrega a primeira questão do quiz
     loadQuestion(currentQuestionIndex);
 });
 
-// Function to show a specific section and hide others
+// Função para exibir uma seção específica e ocultar as outras
 function showSection(sectionId) {
+    // Oculta todas as seções
     document.querySelectorAll('section').forEach(section => {
         section.classList.add('hidden');
     });
+    // Remove a classe 'hidden' da seção desejada para exibi-la
     document.getElementById(sectionId).classList.remove('hidden');
-    window.scrollTo(0, 0); // Scroll to top when changing section
+    // Rola a página para o topo ao mudar de seção
+    window.scrollTo(0, 0);
 }
 
+// Função auxiliar para formatar e escapar código HTML
+// Garante que caracteres como '<' e '>' sejam exibidos como texto e não como tags HTML
+// Também substitui tabulações por espaços para consistência de indentação
+function formatCode(text) {
+    // Substitui tabulações por 4 espaços para uma indentação consistente
+    text = text.replace(/\t/g, '    ');
+    // Escapa caracteres HTML especiais para que o código seja exibido corretamente
+    return text
+        .replace(/&/g, "&amp;")  // Substitui '&' por '&amp;'
+        .replace(/</g, "&lt;")   // Substitui '<' por '&lt;'
+        .replace(/>/g, "&gt;")   // Substitui '>' por '&gt;'
+        .replace(/"/g, "&quot;") // Substitui '"' por '&quot;'
+        .replace(/'/g, "&#039;"); // Substitui ''' por '&#039;'
+}
+
+// Array de objetos, onde cada objeto representa uma questão do quiz
 const questions = [
     {
         id: 1,
@@ -61,6 +82,7 @@ const questions = [
     {
         id: 4,
         question: "Considere as características de filas estáticas e dinâmicas:<br><br>I. Filas estáticas alocam memória em tempo de compilação, o que pode causar desperdício.<br>II. Filas dinâmicas sempre são mais eficientes.<br>III. Filas estáticas são mais fáceis de implementar, pois não usam ponteiros.<br>IV. Filas dinâmicas podem variar de tamanho conforme a memória disponível.<br><br>Assinale a opção correta:",
+        // Questão 4 não possui trechos de código para exibir.
         options: [
             "a) I, III e IV",
             "b) II, III e IV",
@@ -73,7 +95,74 @@ const questions = [
     },
     {
         id: 5,
-        question: "Com base em dois trechos de código sobre filas (um estático e outro dinâmico), analise:<br><br>I. O Código 1 usa aritmética modular para percorrer vetor circular.<br>II. O Código 2 acessa os elementos via ponteiros.<br>III. O Código 1 pode imprimir lixo se o campo 'fim' não for atualizado corretamente.<br>IV. O Código 2 tem maior risco de vazamento de memória na exibição.<br><br>Assinale a alternativa correta:",
+        // Enunciado da questão 5 corrigido para ser mais claro
+        question: "Com base nos dois trechos de código sobre filas (um estático e outro dinâmico) apresentados abaixo, analise as afirmações a seguir e assinale a alternativa que contém apenas as afirmações VERDADEIRAS:<br><br>I. O Código 1 usa aritmética modular para percorrer vetor circular.<br>II. O Código 2 acessa os elementos via ponteiros.<br>III. O Código 1 pode imprimir lixo se o campo 'fim' não for atualizado corretamente.<br>IV. O Código 2 tem maior risco de vazamento de memória na exibição.",
+        code1: formatCode(`
+// Código 1: Exemplo de Fila Estática Circular em C para Exibição
+// Define a capacidade máxima da fila. Este é um limite fixo para o array subjacente.
+#define MAX_SIZE 5 
+
+// Estrutura da Fila Estática.
+typedef struct {
+    int elementos[MAX_SIZE]; // Array (vetor) para armazenar os elementos da fila.
+    int inicio;              // Índice que aponta para o primeiro elemento válido da fila.
+    int fim;                 // Índice que aponta para a próxima posição livre onde um novo elemento seria inserido.
+    int count;               // Contador que guarda o número atual de elementos na fila.
+} FilaEstatica;
+
+// Função para exibir os elementos da fila estática.
+void exibirFilaEstatica(FilaEstatica* f) {
+    // Verifica se a fila está vazia. Se 'count' for 0, não há elementos.
+    if (f->count == 0) {
+        printf("Fila estatica vazia.\\n");
+        return; // Sai da função.
+    }
+    printf("Elementos (Fila Estatica): ");
+    int i = f->inicio; // Inicia um índice temporário 'i' a partir do 'inicio' da fila.
+    // Loop que percorre 'count' vezes, garantindo que apenas os elementos válidos sejam exibidos.
+    for (int k = 0; k < f->count; k++) { 
+        printf("%d ", f->elementos[i]); // Imprime o elemento na posição atual de 'i'.
+        // Atualiza 'i' para a próxima posição. A aritmética modular (%) é crucial
+        // para o comportamento circular: quando 'i' atinge MAX_SIZE, ele "volta" para 0.
+        i = (i + 1) % MAX_SIZE; 
+    }
+    printf("\\n"); // Imprime uma nova linha para formatar a saída.
+}
+        `),
+        code2: formatCode(`
+// Código 2: Exemplo de Fila Dinâmica em C para Exibição
+// Estrutura para um único nó da fila.
+typedef struct NoFila {
+    int valor;             // Campo para armazenar o dado do elemento da fila.
+    struct NoFila* proximo; // Ponteiro (referência de memória) para o próximo nó na sequência da fila.
+} NoFila;
+
+// Estrutura principal da fila dinâmica.
+typedef struct {
+    NoFila* inicio; // Ponteiro para o primeiro nó da fila (cabeça da lista encadeada).
+    NoFila* fim;    // Ponteiro para o último nó da fila. Facilita inserções no final (FIFO).
+} FilaDinamica;
+
+// Função para exibir os elementos da fila dinâmica.
+void exibirFilaDinamica(FilaDinamica* f) {
+    // Verifica se a fila está vazia. Se o ponteiro 'inicio' for NULL, não há nós na fila.
+    if (f->inicio == NULL) { 
+        printf("Fila dinamica vazia.\\n");
+        return; // Sai da função.
+    }
+    printf("Elementos (Fila Dinamica): ");
+    // Cria um ponteiro auxiliar 'atual' e o inicializa com o 'inicio' da fila.
+    // Este ponteiro será usado para percorrer a lista sem alterar a estrutura da fila.
+    NoFila* atual = f->inicio; 
+    // Loop que percorre a fila enquanto o ponteiro 'atual' não for NULL.
+    // O último nó da fila tem seu 'proximo' apontando para NULL, marcando o fim.
+    while (atual != NULL) {    
+        printf("%d ", atual->valor); // Imprime o valor do dado armazenado no nó atual.
+        atual = atual->proximo;      // Move o ponteiro 'atual' para o próximo nó, seguindo a sequência.
+    }
+    printf("\\n"); // Imprime uma nova linha para formatar a saída.
+}
+        `),
         options: [
             "a) I e II",
             "b) II e III",
@@ -86,11 +175,34 @@ const questions = [
     },
     {
         id: 6,
-        question: "Em filas dinâmicas, a reinicialização deve desalocar todos os nós corretamente. Analise um código responsável por isso e marque a opção correta:<br><br>a) Só reinicializa se a fila estiver vazia.<br>b) O while percorre a fila liberando memória de cada elemento.<br>c) A reinicialização está incompleta porque o ponteiro 'fim' não é atualizado.<br>d) O código é exclusivo para filas estáticas, pois usa free.<br>e) O código libera memória do fim para o início.",
+        question: "Em filas dinâmicas, a reinicialização deve desalocar todos os nós corretamente. Analise o código responsável por isso e marque a opção correta:",
+        codeSnippet: formatCode(`
+// Código de Reinicialização de Fila Dinâmica
+// Esta função tem como objetivo liberar toda a memória alocada dinamicamente para os nós de uma fila.
+void reinicializarFilaDinamica(FilaDinamica* f) {
+    NoFila* atual = f->inicio; // 'atual' começa apontando para o primeiro nó da fila.
+    NoFila* proximo;           // Ponteiro temporário para armazenar o endereço do próximo nó.
+
+    // O loop continua enquanto 'atual' não for NULL, ou seja, enquanto houver nós na fila.
+    while (atual != NULL) {    
+        proximo = atual->proximo; // Salva o endereço do próximo nó ANTES de liberar o nó atual.
+                                  // Isso é crucial para não perder a referência para o restante da fila.
+        free(atual);             // Libera a memória alocada para o nó que 'atual' está apontando.
+        atual = proximo;         // 'atual' avança para o próximo nó que foi salvo.
+    }
+    // Após o loop, todos os nós foram liberados. A fila agora está vazia.
+    // Os ponteiros 'inicio' e 'fim' da estrutura da fila principal devem ser resetados para NULL,
+    // indicando que a fila está de fato vazia.
+    f->inicio = NULL; 
+    f->fim = NULL;    
+}
+        `),
         options: [
             "a) Só reinicializa se a fila estiver vazia.",
             "b) O while percorre a fila liberando memória de cada elemento.",
-            "c) A reinicialização está incompleta porque o ponteiro 'fim' não é atualizado.<br>d) O código é exclusivo para filas estáticas, pois usa free.<br>e) O código libera memória do fim para o início."
+            "c) A reinicialização está incompleta porque o ponteiro 'fim' não é atualizado.",
+            "d) O código é exclusivo para filas estáticas, pois usa free.",
+            "e) O código libera memória do fim para o início."
         ],
         correctAnswer: "b",
         explanation: "Em uma função de reinicialização de fila dinâmica, é essencial percorrer todos os nós da fila e liberar a memória alocada para cada um, um por um, para evitar vazamento de memória. O laço 'while' é o mecanismo comum para fazer isso, avançando para o próximo nó após liberar o atual. A opção 'c' é um erro comum em implementações incompletas: além de liberar os nós, os ponteiros 'início' e 'fim' da fila devem ser resetados (geralmente para NULL) para indicar que a fila está agora vazia."
@@ -129,59 +241,95 @@ const questions = [
         ],
         correctAnswer: "a", // This needs to be 'a' to match the single option
         explanation: "Esta é uma questão de comparação e implementação de código, sem alternativas de múltipla escolha. A parte (A) exige uma análise comparativa das características de filas estáticas e dinâmicas. A parte (B) pede a escrita de um código em C para a função de exclusão de elemento de fila. Ambas requerem conhecimento aprofundado e capacidade de aplicação prática.",
-        codeSolution: `
-// Parte A: Comparação (Resumo)
-// Flexibilidade de tamanho: Estática (fixo) vs. Dinâmica (flexível).
-// Uso de memória: Estática (potencial desperdício/falta) vs. Dinâmica (eficiente).
-// Complexidade de inserção/remoção: Estática (simples com aritmética modular) vs. Dinâmica (gerenciamento de ponteiros).
+        codeSolution: formatCode(`
+// Parte A: Comparação entre Fila Estática e Fila Dinâmica (Resumo)
 
-// Parte B: Implementação da função excluirElementoFila
-// Assumindo a seguinte estrutura para FILA e REGISTRO (simplificado):
+// Flexibilidade de Tamanho:
+//   - Fila Estática: Possui tamanho fixo, definido no momento da sua criação. Não pode aumentar ou diminuir durante a execução do programa.
+//   - Fila Dinâmica: Possui tamanho flexível, adaptando-se à demanda. Pode crescer ou diminuir conforme a inserção e remoção de elementos.
+
+// Uso de Memória:
+//   - Fila Estática: Pode ocorrer desperdício de memória se o tamanho máximo alocado for muito maior que a demanda real de elementos. Por outro lado, pode faltar espaço se a demanda exceder o tamanho alocado.
+//   - Fila Dinâmica: Utiliza a memória de forma mais eficiente, pois aloca e desaloca espaço apenas quando necessário (para cada nó).
+
+// Complexidade de Inserção/Remoção:
+//   - Fila Estática: Geralmente mais simples de implementar. Utiliza um vetor (array) e índices para controlar as posições. Em filas circulares, envolve aritmética modular.
+//   - Fila Dinâmica: Mais complexa de programar, pois envolve o gerenciamento manual de ponteiros (para conectar os nós) e operações de alocação/desalocação dinâmica de memória.
+
+// ----------------------------------------------------------------------------------------------------
+
+// Parte B: Implementação da função 'excluirElementoFila' em C (para Fila Dinâmica)
+
 /*
-typedef struct registro {
-    int chave;
-    // outros campos se houver
-} REGISTRO;
+   Assumindo as seguintes estruturas para FILA e REGISTRO (simplificado para o exemplo):
 
-typedef struct no {
-    REGISTRO reg;
-    struct no* prox;
-} NO;
+   // Incluir <stdbool.h> para usar o tipo 'bool'
+   #include <stdbool.h>
+   #include <stdio.h>   // Para printf (usado em depuração ou feedback)
+   #include <stdlib.h>  // Para malloc e free (alocação/desalocação de memória)
 
-typedef struct fila {
-    NO* inicio;
-    NO* fim;
-} FILA;
+   // Estrutura para o registro/dado que será armazenado em cada elemento da fila
+   typedef struct registro {
+       int chave; // Um campo de exemplo para o dado. Pode ter outros campos.
+   } REGISTRO;
+
+   // Estrutura para cada nó da lista encadeada que compõe a fila dinâmica
+   typedef struct no {
+       REGISTRO reg;      // O registro de dados que este nó contém
+       struct no* prox; // Ponteiro para o próximo nó na sequência da fila
+   } NO;
+
+   // Estrutura principal da Fila Dinâmica, contendo ponteiros para o início e fim
+   typedef struct fila {
+       NO* inicio; // Ponteiro para o primeiro nó da fila
+       NO* fim;    // Ponteiro para o último nó da fila
+   } FILA;
+
+   // Função auxiliar para inicializar uma fila vazia (ponteiros NULL)
+   void inicializarFila(FILA* f) {
+       f->inicio = NULL;
+       f->fim = NULL;
+   }
 */
 
+// Função: excluirElementoFila
+// Parâmetros:
+//   - FILA* f: Ponteiro para a estrutura da fila da qual o elemento será removido.
+//   - REGISTRO* reg: Ponteiro para uma estrutura REGISTRO onde o dado do elemento removido será copiado.
+// Retorna:
+//   - bool: true se um elemento foi removido com sucesso, false se a fila estava vazia.
 bool excluirElementoFila(FILA* f, REGISTRO* reg) {
-    // 1. Verifica se a fila está vazia
+    // 1. Verifica se a fila está vazia. Se o ponteiro 'inicio' for NULL, não há elementos.
     if (f->inicio == NULL) {
-        return false; // Fila vazia, nada a excluir
+        return false; // Fila vazia, impossível excluir. Retorna false.
     }
 
-    // 2. Armazena o nó a ser removido (o primeiro)
+    // 2. Cria um ponteiro temporário 'noAExcluir' e faz ele apontar para o primeiro nó da fila.
+    // Este é o nó que será removido e liberado da memória.
     NO* noAExcluir = f->inicio;
 
-    // 3. Copia os dados do registro do nó a ser excluído
-    // para a variável 'reg' passada por parâmetro
-    *reg = noAExcluir->reg; // Copia a estrutura REGISTRO
+    // 3. Copia os dados do registro contido no nó a ser excluído para a variável 'reg'.
+    // O operador '*' desreferencia 'reg' e 'noAExcluir->reg' para copiar o conteúdo da struct.
+    *reg = noAExcluir->reg; 
 
-    // 4. Atualiza o ponteiro 'inicio' para o próximo nó
+    // 4. Atualiza o ponteiro 'inicio' da fila para apontar para o próximo nó na sequência.
+    // O nó que era o segundo da fila passa a ser o novo primeiro.
     f->inicio = noAExcluir->prox;
 
-    // 5. Se a fila ficou vazia após a remoção, atualiza 'fim' para NULL também
+    // 5. Verifica se, após a remoção, a fila ficou vazia.
+    // Isso acontece se o nó que foi removido era o único nó na fila.
     if (f->inicio == NULL) {
-        f->fim = NULL;
+        f->fim = NULL; // Se a fila ficou vazia, o ponteiro 'fim' também deve ser resetado para NULL.
     }
 
-    // 6. Libera a memória do nó excluído
+    // 6. Libera a memória alocada para o nó que foi excluído.
+    // Isso é fundamental em C para evitar vazamento de memória (memory leak).
     free(noAExcluir);
 
-    // 7. Retorna true indicando sucesso na exclusão
+    // 7. Retorna true para indicar que a operação de exclusão foi realizada com sucesso.
     return true;
 }
-        `
+        `)
     },
     {
         id: 10,
@@ -250,16 +398,65 @@ bool excluirElementoFila(FILA* f, REGISTRO* reg) {
     },
     {
         id: 15,
-        question: "Com base em dois códigos de inserção em filas:<br><br>a) Código 1 limita o crescimento pela contagem de elementos.<br>b) Código 2 usa vetor fixo e aritmética modular.<br>c) Ambos têm limite de crescimento fixo.<br>d) Código 1 faz alocação dinâmica e não precisa de controle de posições.<br>e) Código 2 não atualiza o ponteiro 'fim', o que causa falhas.",
+        question: "Com base em dois códigos de inserção em filas:",
+        code1: formatCode(`
+// Código 1: Exemplo de Inserção (Enqueue) em Fila Estática Circular em C
+// Função de Inserção (Enqueue) para Fila Estática
+// MAX_SIZE assumido como a capacidade máxima do array.
+void enqueueEstatica(FilaEstatica* f, int valor) {
+    // Verifica se a fila está cheia (se o número de elementos atingiu o limite).
+    // Esta é uma condição crucial para evitar 'buffer overflow'.
+    if (f->count == MAX_SIZE) {
+        printf("Erro: Fila estatica cheia! Impossivel inserir %d.\\n", valor);
+        return; // Sai da função sem inserir
+    }
+    // Insere o novo valor na posição indicada pelo índice 'fim'.
+    f->elementos[f->fim] = valor; 
+    // Atualiza o índice 'fim' para a próxima posição livre.
+    // O operador módulo (%) faz com que o índice "volte" ao início (0)
+    // do array quando ele atinge ou excede MAX_SIZE, criando o comportamento circular.
+    f->fim = (f->fim + 1) % MAX_SIZE;
+    f->count++; // Incrementa o contador de elementos na fila.
+}
+        `),
+        code2: formatCode(`
+// Código 2: Exemplo de Inserção (Enqueue) em Fila Dinâmica em C
+// Função de Inserção (Enqueue) para Fila Dinâmica
+// Esta função aloca um novo nó e o adiciona ao final da fila.
+void enqueueDinamica(FilaDinamica* f, int valor) {
+    // Aloca dinamicamente memória para um novo nó 'NoFila'.
+    // malloc retorna NULL se a alocação falhar (memória insuficiente).
+    NoFila* novoNo = (NoFila*) malloc(sizeof(NoFila));
+    if (novoNo == NULL) { 
+        printf("Erro: Memoria insuficiente para inserir %d.\\n", valor);
+        return; // Sai da função em caso de falha na alocação
+    }
+    novoNo->valor = valor;    // Atribui o valor de dado ao novo nó
+    // O novo nó sempre será o último na fila, então seu ponteiro 'proximo' aponta para NULL.
+    novoNo->proximo = NULL; 
+
+    // Verifica se a fila estava vazia antes desta inserção.
+    // Se 'f->fim' é NULL, significa que a fila não tem elementos.
+    if (f->fim == NULL) { 
+        f->inicio = novoNo; // O novo nó se torna tanto o início quanto o fim da fila
+        f->fim = novoNo;
+    } else { // Se a fila já contém elementos
+        // O nó que atualmente é o 'fim' da fila aponta seu 'proximo' para o novo nó.
+        f->fim->proximo = novoNo;
+        // O novo nó agora se torna o novo 'fim' da fila.
+        f->fim = novoNo;
+    }
+}
+        `),
         options: [
             "a) Código 1 limita o crescimento pela contagem de elementos.",
-            "b) Código 2 usa vetor fixo e aritmética modular.",
+            "b) Código 2 usa vetor fixo e aritmética modular.", // Esta opção foi ajustada para refletir a correção da correctAnswer
             "c) Ambos têm limite de crescimento fixo.",
             "d) Código 1 faz alocação dinâmica e não precisa de controle de posições.",
             "e) Código 2 não atualiza o ponteiro 'fim', o que causa falhas."
         ],
-        correctAnswer: "b", // Mantido como 'b' para a demonstração, mas a resposta ideal dependeria dos códigos reais
-        explanation: "Para responder a esta questão, seria necessário analisar os 'Código 1' e 'Código 2' mencionados. Assumindo um cenário típico onde um código representa uma fila estática e o outro uma fila dinâmica, a opção 'b' é a mais provável de ser correta, descrevendo uma característica de uma implementação de fila estática. Sem os códigos, a análise é baseada em generalizações. No entanto, em um contexto de questão de múltipla escolha, 'b' aponta para uma característica bem específica de filas estáticas circulares."
+        correctAnswer: "a",
+        explanation: "Para esta questão, o Código 1 (fila estática) usa um limite de tamanho fixo (`MAX_SIZE`) e um contador (`count`) para controlar seu crescimento e verificar quando está cheia. O Código 2 (fila dinâmica) aloca memória dinamicamente e não tem um limite fixo, crescendo conforme a necessidade. Portanto, a opção 'a' é a mais precisa para o Código 1. A opção 'b' descreve características de uma fila estática circular (vetor fixo e aritmética modular) e é incorreta para o Código 2, que é uma fila dinâmica."
     },
     {
         id: 16,
@@ -295,50 +492,82 @@ bool excluirElementoFila(FILA* f, REGISTRO* reg) {
         ],
         correctAnswer: "a", // This needs to be 'a' to match the single option
         explanation: "Esta é uma questão de comparação e implementação de código, sem alternativas de múltipla escolha. A parte (A) exige uma análise comparativa das características de filas estáticas e dinâmicas. A parte (B) pede a escrita de um código em C para a função de exibição de elementos de uma fila dinâmica. Ambas requerem conhecimento aprofundado e capacidade de aplicação prática.",
-        codeSolution: `
-// Parte A: Comparação (Resumo)
-// Flexibilidade de tamanho: Estática (fixo) vs. Dinâmica (flexível).
-// Uso de memória: Estática (potencial desperdício/falta) vs. Dinâmica (eficiente).
-// Complexidade de inserção/remoção: Estática (simples com aritmética modular) vs. Dinâmica (gerenciamento de ponteiros).
+        codeSolution: formatCode(`
+// Parte A: Comparação entre Fila Estática e Fila Dinâmica (Resumo)
 
-// Parte B: Implementação da função exibirFila
-// Assumindo a seguinte estrutura para FILA e REGISTRO (simplificado):
+// Flexibilidade de Tamanho:
+//   - Fila Estática: Possui tamanho fixo, definido no momento da sua criação. Não pode aumentar ou diminuir durante a execução do programa.
+//   - Fila Dinâmica: Possui tamanho flexível, adaptando-se à demanda. Pode crescer ou diminuir conforme a inserção e remoção de elementos.
+
+// Uso de Memória:
+//   - Fila Estática: Pode ocorrer desperdício de memória se o tamanho máximo alocado for muito maior que a demanda real de elementos. Por outro lado, pode faltar espaço se a demanda exceder o tamanho alocado.
+//   - Fila Dinâmica: Utiliza a memória de forma mais eficiente, pois aloca e desaloca espaço apenas quando necessário (para cada nó).
+
+// Complexidade de Inserção/Remoção:
+//   - Fila Estática: Geralmente mais simples de implementar. Utiliza um vetor (array) e índices para controlar as posições. Em filas circulares, envolve aritmética modular.
+//   - Fila Dinâmica: Mais complexa de programar, pois envolve o gerenciamento manual de ponteiros (para conectar os nós) e operações de alocação/desalocação dinâmica de memória.
+
+// ----------------------------------------------------------------------------------------------------
+
+// Parte B: Implementação da função 'exibirFila' em C (para Fila Dinâmica)
+
 /*
-typedef struct registro {
-    int chave;
-    // outros campos se houver
-} REGISTRO;
+   Assumindo as seguintes estruturas para FILA e REGISTRO (simplificado para o exemplo):
 
-typedef struct no {
-    REGISTRO reg;
-    struct no* prox;
-} NO;
+   // Incluir <stdio.h> para usar printf
+   #include <stdio.h>
+   // Não é necessário <stdlib.h> apenas para exibir, mas seria para inserção/remoção
 
-typedef struct fila {
-    NO* inicio;
-    NO* fim;
-} FILA;
+   // Estrutura para o registro/dado que será armazenado em cada elemento da fila
+   typedef struct registro {
+       int chave; // Um campo de exemplo para o dado. Pode ter outros campos.
+   } REGISTRO;
+
+   // Estrutura para cada nó da lista encadeada que compõe a fila dinâmica
+   typedef struct no {
+       REGISTRO reg;      // O registro de dados que este nó contém
+       struct no* prox; // Ponteiro para o próximo nó na sequência da fila
+   } NO;
+
+   // Estrutura principal da Fila Dinâmica, contendo ponteiros para o início e fim
+   typedef struct fila {
+       NO* inicio; // Ponteiro para o primeiro nó da fila
+       NO* fim;    // Ponteiro para o último nó da fila
+   } FILA;
+
+   // Função auxiliar para inicializar uma fila vazia (ponteiros NULL)
+   void inicializarFila(FILA* f) {
+       f->inicio = NULL;
+       f->fim = NULL;
+   }
 */
 
+// Função: exibirFila
+// Parâmetros:
+//   - FILA* f: Ponteiro para a estrutura da fila que será exibida.
+// Retorna:
+//   - void: Não retorna nenhum valor, apenas imprime os elementos na console.
 void exibirFila(FILA* f) {
-    // 1. Verifica se a fila está vazia
+    // 1. Verifica se a fila está vazia. Se o ponteiro 'inicio' for NULL, significa que a fila não contém elementos.
     if (f->inicio == NULL) {
-        printf("Fila vazia.\\n");
-        return;
+        printf("Fila vazia.\\n"); // Informa que a fila está vazia.
+        return; // Encerra a execução da função.
     }
 
-    // 2. Cria um ponteiro auxiliar para percorrer a fila
+    // 2. Cria um ponteiro auxiliar 'atual' e o inicializa com o endereço do primeiro nó da fila ('f->inicio').
+    // Este ponteiro será usado para percorrer a lista nó por nó sem alterar a estrutura original da fila.
     NO* atual = f->inicio;
 
     printf("Elementos da fila: ");
-    // 3. Percorre a fila até o final (ponteiro atual ser NULL)
-    while (atual != NULL) {
-        printf("%d ", atual->reg.chave); // Imprime a chave do registro atual
-        atual = atual->prox;           // Avança para o próximo nó
+    // 3. Loop para percorrer a fila: continua executando enquanto 'atual' não for NULL.
+    // O ponteiro 'prox' do último nó da fila é NULL, indicando o fim da lista.
+    while (atual != NULL) { 
+        printf("%d ", atual->reg.chave); // Imprime o valor da 'chave' do registro contido no nó atual.
+        atual = atual->prox;             // Avança o ponteiro 'atual' para o próximo nó na sequência da fila.
     }
-    printf("\\n"); // Pula uma linha no final
+    printf("\\n"); // Imprime uma nova linha no final para melhor formatação da saída.
 }
-        `
+        `)
     }
 ];
 
@@ -348,103 +577,130 @@ const quizFeedback = document.getElementById('quiz-feedback');
 const prevButton = document.getElementById('prev-question');
 const nextButton = document.getElementById('next-question');
 
+// Função principal para carregar e exibir uma questão
 function loadQuestion(index) {
+    // Verifica se o índice da questão está dentro dos limites do array
     if (index < 0 || index >= questions.length) {
-        return; // Avoid out of bounds
+        return; // Sai da função se o índice for inválido
     }
 
-    const q = questions[index];
-    let optionsHtml = '';
+    const q = questions[index]; // Obtém o objeto da questão atual
+    let optionsHtml = '';      // Variável para armazenar o HTML das opções de resposta
+    let codeSectionHtml = '';  // Variável para armazenar o HTML dos blocos de código
+
+    // ** Lógica para construir e injetar os códigos, SOMENTE SE EXISTIREM **
+    // Verifica se a questão possui 'code1' (geralmente para fila estática)
+    if (q.code1) {
+        codeSectionHtml += `
+            <h4>Código 1: Fila Estática</h4>
+            <pre class="code-display"><code>${q.code1}</code></pre>
+        `;
+    }
+    // Verifica se a questão possui 'code2' (geralmente para fila dinâmica)
+    if (q.code2) {
+        codeSectionHtml += `
+            <h4>Código 2: Fila Dinâmica</h4>
+            <pre class="code-display"><code>${q.code2}</code></pre>
+        `;
+    }
+    // Verifica se a questão possui 'codeSnippet' (para um único trecho de código, como em Questão 6)
+    if (q.codeSnippet) {
+        codeSectionHtml += `
+            <h4>Código para Análise</h4>
+            <pre class="code-display"><code>${q.codeSnippet}</code></pre>
+        `;
+    }
+
+    // Lógica para renderizar as opções de resposta
+    // Verifica se é uma questão aberta (com apenas uma opção que instrui a ver a solução)
     if (q.options.length === 1 && q.options[0].includes("questão aberta")) {
-        // Special handling for open-ended questions
         optionsHtml = `
             <label>
                 <input type="radio" name="question${q.id}" value="a" onchange="checkAnswer(${index}, this.value)" style="display:none;">
                 <span>${q.options[0]}</span>
             </label>
             <button class="code-solution-toggle" onclick="toggleCodeSolution(${q.id})">Ver Solução</button>
-            <pre class="code-solution" id="code-solution-${q.id}"><code>${q.codeSolution ? escapeHtml(q.codeSolution) : 'Solução de código não disponível.'}</code></pre>
+            <pre class="code-solution" id="code-solution-${q.id}"><code>${q.codeSolution ? q.codeSolution : 'Solução de código não disponível.'}</code></pre>
         `;
     } else {
-        // Normal multiple-choice questions
+        // Para questões de múltipla escolha normais, mapeia as opções para labels com radio buttons
         optionsHtml = q.options.map((option, i) => `
             <label>
                 <input type="radio" name="question${q.id}" value="${String.fromCharCode(97 + i)}" onchange="checkAnswer(${index}, this.value)">
                 <span>${option}</span>
             </label>
-        `).join('');
+        `).join(''); // Junta todas as strings de HTML das opções
     }
 
+    // Atualiza o conteúdo HTML do container do quiz com a nova questão
     quizContainer.innerHTML = `
         <div class="question-card">
             <h3>Questão ${q.id}</h3>
             <p>${q.question}</p>
-            <div class="options">
+            ${codeSectionHtml} <div class="options">
                 ${optionsHtml}
             </div>
             <div id="feedback-${q.id}" class="feedback"></div>
         </div>
     `;
 
-    // Clear previous feedback
+    // Limpa o feedback anterior (se houver) e o oculta
     quizFeedback.style.display = 'none';
     quizFeedback.textContent = '';
     document.getElementById(`feedback-${q.id}`).style.display = 'none';
 
-
-    // Update navigation button states
-    prevButton.disabled = currentQuestionIndex === 0;
-    nextButton.disabled = currentQuestionIndex === questions.length - 1;
+    // Atualiza o estado dos botões de navegação (Anterior/Próxima)
+    prevButton.disabled = currentQuestionIndex === 0; // Desabilita 'Anterior' na primeira questão
+    nextButton.disabled = currentQuestionIndex === questions.length - 1; // Desabilita 'Próxima' na última questão
 }
 
+// Função para verificar a resposta selecionada pelo usuário
 function checkAnswer(questionIndex, selectedOptionValue) {
-    const q = questions[questionIndex];
-    const feedbackDiv = document.getElementById(`feedback-${q.id}`);
-    const selectedOptionLetter = selectedOptionValue; // 'a', 'b', 'c', etc.
+    const q = questions[questionIndex]; // Obtém o objeto da questão
+    const feedbackDiv = document.getElementById(`feedback-${q.id}`); // Obtém a div de feedback específica da questão
+    const selectedOptionLetter = selectedOptionValue; // Valor da opção selecionada ('a', 'b', etc.)
 
-    // Remove previous feedback classes
+    // Remove classes de feedback anteriores para resetar o estilo
     feedbackDiv.classList.remove('correct', 'incorrect');
 
+    // Compara a opção selecionada com a resposta correta
     if (selectedOptionLetter === q.correctAnswer) {
-        feedbackDiv.classList.add('correct');
-        feedbackDiv.textContent = 'Parabéns! Resposta correta.';
+        feedbackDiv.classList.add('correct'); // Adiciona classe para estilo de resposta correta
+        feedbackDiv.textContent = 'Parabéns! Resposta correta.'; // Mensagem de sucesso
     } else {
-        feedbackDiv.classList.add('incorrect');
+        feedbackDiv.classList.add('incorrect'); // Adiciona classe para estilo de resposta incorreta
+        // Mensagem de erro com a resposta correta e a explicação
         feedbackDiv.innerHTML = `Resposta incorreta. A resposta correta é: <strong>${q.correctAnswer.toUpperCase()}</strong>. <br><br><strong>Explicação:</strong> ${q.explanation}`;
     }
-    feedbackDiv.style.display = 'block';
+    feedbackDiv.style.display = 'block'; // Exibe a div de feedback
 
-    // Disable all radio buttons for the current question after selection
+    // Desabilita todos os radio buttons da questão atual para impedir novas seleções
     document.querySelectorAll(`input[name="question${q.id}"]`).forEach(radio => {
         radio.disabled = true;
     });
 }
 
+// Função para alternar a visibilidade da solução de código em questões abertas
 function toggleCodeSolution(questionId) {
     const solutionDiv = document.getElementById(`code-solution-${questionId}`);
+    // Alterna o estilo 'display' entre 'block' (visível) e 'none' (oculto)
     solutionDiv.style.display = solutionDiv.style.display === 'block' ? 'none' : 'block';
 }
 
-// Helper function to escape HTML for pre tags
-function escapeHtml(text) {
-    return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
+// Função para navegar para a próxima questão
 function nextQuestion() {
+    // Verifica se não estamos na última questão
     if (currentQuestionIndex < questions.length - 1) {
-        currentQuestionIndex++;
-        loadQuestion(currentQuestionIndex);
+        currentQuestionIndex++; // Incrementa o índice da questão
+        loadQuestion(currentQuestionIndex); // Carrega a próxima questão
     }
 }
 
+// Função para navegar para a questão anterior
 function prevQuestion() {
+    // Verifica se não estamos na primeira questão
     if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        loadQuestion(currentQuestionIndex);
+        currentQuestionIndex--; // Decrementa o índice da questão
+        loadQuestion(currentQuestionIndex); // Carrega a questão anterior
     }
 }
