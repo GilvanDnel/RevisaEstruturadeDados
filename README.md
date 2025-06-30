@@ -34,8 +34,7 @@ Este repositório pode conter exemplos e implementações de diversas estruturas
 
 Embora as estruturas de dados sejam conceitos agnósticos a linguagens, as implementações neste repositório são predominantemente feitas em:
 
-* **JavaScript** (ou a linguagem que você estiver utilizando majoritariamente no projeto).
-
+* **JavaScript** 
 ## 💡 Como Contribuir (ou Usar para Estudo)
 
 Se você também está estudando Estruturas de Dados ou tem sugestões para melhorias:
